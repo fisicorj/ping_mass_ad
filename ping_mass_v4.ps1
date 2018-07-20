@@ -27,5 +27,4 @@ foreach ($Server in $ad) {
        }
 }
 
-#write-output $array.Count "of" $ad.Count | Format-Table  # Escreve resultado na tela.
 Write-Host $array.Count -ForegroundColor Green -nonewline "of " ; write-host $ad.Count -ForegroundColor Red #| Format-Table  # Escreve resultado na tela.
