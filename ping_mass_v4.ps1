@@ -11,7 +11,7 @@ $filter = 'operatingsystem -like "*Windows 10*"' # Faça aqui o filtro desejado
 $ad = Get-ADComputer -Filter $filter -properties operatingsystem, PasswordLastSet | Where-Object {((Get-Date) - $_.PasswordLastSet).Days -lt $date} | Select-Object -Property DNSHostName -ExpandProperty DNSHostName
 
 #Criando array vazia
-$array = @()
+$array_true = @()
 
 #Laço de testes
 foreach ($Server in $ad) {
@@ -20,12 +20,11 @@ foreach ($Server in $ad) {
 
         if ($PingRequest -eq $True)  {
 
-         $array += $Server  #Adiciona o objeto com valor true na array
+         $array_true += $Server  #Adiciona o objeto com valor true na array
          #$string = $array -join "`n"
          #Write-Host $string  -ForegroundColor Green
-         write-output  $array | Select-Object -Last 1 | Write-Host -ForegroundColor Green
+         write-output  $array_true | Select-Object -Last 1 | Write-Host -ForegroundColor Green
        }
 }
 
-#write-output $array.Count "of" $ad.Count | Format-Table  # Escreve resultado na tela.
-Write-Host $array.Count -ForegroundColor Green -nonewline "of " ; write-host $ad.Count -ForegroundColor Red #| Format-Table  # Escreve resultado na tela.
+Write-Host $array_true.Count -ForegroundColor Green -nonewline "of " ; write-host $ad.Count -ForegroundColor Red #| Format-Table  # Escreve resultado na tela.
