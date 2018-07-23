@@ -1,6 +1,6 @@
 ﻿##################################
 ###### Autor: Manoel Guilherme ###
-###### Versão: 3.0 ###############
+###### Versão: 4.0 ###############
 ###### Licensa GLPv3 #############
 ###### Email: fisicorj@gmail.com #
 ##################################
@@ -12,6 +12,7 @@ $ad = Get-ADComputer -Filter $filter -properties operatingsystem, PasswordLastSe
 
 #Criando array vazia
 $array_true = @()
+$array_false = @()
 
 #Laço de testes
 foreach ($Server in $ad) {
@@ -20,11 +21,13 @@ foreach ($Server in $ad) {
 
         if ($PingRequest -eq $True)  {
 
-         $array_true += $Server  #Adiciona o objeto com valor true na array
-         #$string = $array -join "`n"
-         #Write-Host $string  -ForegroundColor Green
-         write-output  $array_true | Select-Object -Last 1 | Write-Host -ForegroundColor Green
+        $array_true += $Server  #Adiciona o objeto com valor true na array
+        write-output  $array_true | Select-Object -Last 1 | Write-Host -ForegroundColor Green
+       } else {
+        $array_false += $Server  #Adiciona o objeto com valor true na array
+        write-output  $array_false | Select-Object -Last 1 | Write-Host -ForegroundColor Red
        }
 }
 
-Write-Host $array_true.Count -ForegroundColor Green -nonewline "of " ; write-host $ad.Count -ForegroundColor Red #| Format-Table  # Escreve resultado na tela.
+# Escreve resultado na tela.
+Write-Host $array_true.Count "connection successfully" -ForegroundColor Green -nonewline ; write-host " and " -ForegroundColor Blue -nonewline ; write-host $array_false.Count "unsuccessful connection" -ForegroundColor Red -nonewline ; Write-Host " of" $ad.Count -ForegroundColor Blue -nonewline
